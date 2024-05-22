@@ -71,17 +71,17 @@ export const getCategoriesAndDocuments = async () => {
 }
 
 
-export const createUserDocumentFromAuth = async (
-  userAuth,
-  additionalInformation = {}
-  ) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => 
+{
   if(!userAuth) return;
 
   const userDocRef = doc(db, 'users', userAuth.uid);
   
   const userSnapshot = await getDoc(userDocRef);
+  console.log("🚀 ~ userSnapshot:", userSnapshot)
 //userSnapshot not exist then create a new one
   if (!userSnapshot.exists()) {
+    console.log("🚀 ~ userSnapshot:", userSnapshot)
     const { displayName, email } = userAuth;
     const createdAt = new Date();
 
@@ -96,9 +96,10 @@ export const createUserDocumentFromAuth = async (
       console.log('error creating the user', error.message);
     }
   }
-
-  return userDocRef;
+  console.log("🚀 ~ userSnapshot:", userSnapshot);
+  return userSnapshot;
 };
+  
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if(!email || !password) return;
@@ -125,7 +126,7 @@ export const getCurrentUser = () => {
         resolve(userAuth);
       },
       reject
-    )
+    );
   });
 
 }
